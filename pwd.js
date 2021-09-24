@@ -1,5 +1,5 @@
-module.exports = () => {
-  console.log(process.cwd());
-  process.stdout.write('\nprompt > ');
+module.exports = (done) => {
+  const currentDir = process.cwd();
+  done(currentDir);
 }
 

@@ -1,27 +1,40 @@
 const pwdCommand = require('./pwd');
 const lsCommand = require('./ls');
-const catCommand = require('./cat')
+const catCommand = require('./cat');
+const reqCommand = require('./curl');
+const dateCommand = require('./date');
 
 process.stdout.write('prompt > ');
+
+
 
 process.stdin.on('data', (data) => {
   const cmd = data.toString().trim().split(' ')
 
-
-  if(cmd === 'pwd'){
-    pwdCommand();
+  const done = (output) => {
+    process.stdout.write(output);
+    process.stdout.write('\nprompt > ');
   }
 
-  if(cmd === 'ls'){
-    lsCommand();
+
+  if(cmd[0] === 'pwd'){
+    pwdCommand(done);
+  }
+
+  if(cmd[0] === 'ls'){
+    lsCommand(done);
   }
   if(cmd[0] === 'cat'){
-    process.stdout.write(cmd[1]);
-    catCommand(cmd[1]);
-
+    catCommand(cmd[1], done);
   }
 
+  if(cmd[0] === 'curl'){
+    reqCommand(cmd[1], done);
+  }
 
-  //process.stdout.write('You typed: ' +cmd);
-  //process.stdout.write('\nprompt > ');
+  if(cmd[0] === 'date'){
+    dateCommand(done);
+  }
 })
+
+
